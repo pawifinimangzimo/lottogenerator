@@ -1200,7 +1200,23 @@ class AdaptiveLotteryValidator:
         elif isinstance(results, np.ndarray):
             return results.tolist()
         return results
+##########
 
+    def _get_latest_draw_info(self):
+        """Get standardized latest draw information for reports"""
+        num_select = self.optimizer.config['strategy']['numbers_to_select']
+        
+        if self.optimizer.latest_draw is not None:
+            draw = self.optimizer.latest_draw
+        else:
+            draw = self.optimizer.historical.iloc[-1]
+        
+        return {
+            'date': draw['date'].strftime('%Y-%m-%d'),
+            'numbers': [int(draw[f'n{i+1}']) for i in range(num_select)]
+        }
+
+##########
     def print_adaptive_results(self, results):
         """Enhanced print method with recency and temperature stats"""
         print("\n" + "="*60)
