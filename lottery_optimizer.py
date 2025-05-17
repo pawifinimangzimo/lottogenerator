@@ -652,7 +652,8 @@ class AdaptiveLotteryOptimizer:
 
     def save_results(self, sets):
         try:
-            output_file = Path(self.config['data']['results_dir']) / 'suggestions.csv'
+            current_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            output_file = Path(self.config['data']['results_dir']) / f'suggestions_{current_time}.csv'
             
             valid_sets = []
             for nums, strategy in sets:
@@ -1717,7 +1718,7 @@ def main():
             optimizer.run_validation(args.mode)
             
         if optimizer.save_results(optimizer.last_generated_sets or initial_sets):
-            print(f"\n✓ Results saved to '{optimizer.config['data']['results_dir']}/suggestions.csv'")
+            print(f"\n✓ Results saved to '{optimizer.config['data']['results_dir']}suggestions-timestamp.csv'")
         
     except Exception as e:
         print(f"\n💥 Error: {str(e)}")
