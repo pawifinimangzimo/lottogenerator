@@ -1708,26 +1708,30 @@ def main():
                 print(f"\nVALIDATION RESULTS (Last {results['test_draws']} draws)")
                 print(f"Latest Draw: {results['latest_draw']['date']} - {results['latest_draw']['numbers']}")
                 
-                print(f"\nSet {i}: {'-'.join(map(str, res['numbers']))} ({res['strategy']})")
-
-                # Safely handle matches information
-                matches = res.get('matches', 0)
-                if matches > 0:
-                    print(f"Matches: {matches}/{self.optimizer.config['strategy']['numbers_to_select']}")
-                    print(f"Matched Numbers: {res.get('matched_numbers', [])}")
-                else:
-                    print("No matches in latest draw")
+                # Initialize counter and get number_to_select from config
+                num_select = optimizer.config['strategy']['numbers_to_select']
+                
+                for i, res in enumerate(results['results'], 1):  # Start counting from 1
+                    print(f"\nSet {i}: {'-'.join(map(str, res['numbers']))} ({res['strategy']})")
+                    
+                    # Safely get matches information
+                    matches = res.get('matches', 0)
+                    print(f"Matches: {matches}/{num_select}")
+                    
+                    if matches > 0:
+                        print(f"Matched Numbers: {res.get('matched_numbers', [])}")
                     
                     print("\nHistorical Performance:")
                     for num in res['numbers']:
-                        print(f"  {num}: {res['historical_stats']['appearances'][num]} appearances "
-                              f"({res['historical_stats']['percentages'][num]})")
+                        print(f"  {num}: {res['number_stats'][num]['appearances']} appearances "
+                              f"({res['number_stats'][num]['frequency']})")
                     
-                    print(f"\nPrevious ≥{res['previous_performance']['alert_threshold']} Matches:")
-                    if not res['previous_performance']['high_matches']:
+                    threshold = optimizer.config['validation']['alert_threshold']
+                    print(f"\nPrevious ≥{threshold} Matches:")
+                    if not res['high_matches']:
                         print("  None found")
                     else:
-                        for match in res['previous_performance']['high_matches']:
+                        for match in res['high_matches']:
                             print(f"  {match['date']}: {match['matches']} matches - {match['numbers']}")
             return
 
