@@ -1,1 +1,1 @@
-# lottogenerator
+# lottooptimizer
