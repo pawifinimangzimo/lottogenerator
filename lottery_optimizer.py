@@ -1708,11 +1708,13 @@ def main():
                 print(f"\nVALIDATION RESULTS (Last {results['test_draws']} draws)")
                 print(f"Latest Draw: {results['latest_draw']['date']} - {results['latest_draw']['numbers']}")
                 
-                for i, res in enumerate(results['results'], 1):
-                    print(f"\nSet {i}: {'-'.join(map(str, res['numbers']))} ({res['strategy']})")
-                    print(f"Current Matches: {res['current_matches']}/6")
-                    if res['current_matches'] > 0:
-                        print(f"Matched Numbers: {res['matched_numbers']}")
+                    # Safely handle matches information
+                    matches = res.get('matches', 0)
+                    if matches > 0:
+                        print(f"Matches: {matches}/{self.optimizer.config['strategy']['numbers_to_select']}")
+                        print(f"Matched Numbers: {res.get('matched_numbers', [])}")
+                    else:
+                        print("No matches in latest draw")
                     
                     print("\nHistorical Performance:")
                     for num in res['numbers']:
