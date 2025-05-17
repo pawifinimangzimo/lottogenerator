@@ -22,9 +22,9 @@ strategy:
   numbers_to_select: 6     # Numbers to pick per set
   
   # Weight distribution (must sum to 1.0)
-  frequency_weight: 0.5    # Historical frequency importance (40%)
-  recent_weight: 0.4       # Recent appearances importance (20%)
-  random_weight: 0.1       # Pure randomness component (40%)
+  frequency_weight: 0.45    # Historical frequency importance (40%)
+  recent_weight: 0.5       # Recent appearances importance (20%)
+  random_weight: 0.05       # Pure randomness component (40%)
   
   # Strategic rules
   low_number_max: 10       # Numbers ≤10 are considered "low"
@@ -47,9 +47,9 @@ analysis:
   min_display_matches: 1        # Hide single matches if needed
   recency_units: draws  # "draws" or "days"
   recency_bins:
-    hot: 20    # Recent threshold
-    warm: 20   # Semi-recent
-    cold: 20   # Beginning of "cold" range
+    hot: 15    # Recent threshold
+    warm: 30   # Semi-recent
+    cold: 31   # Beginning of "cold" range
   show_combined_stats: true
   top_range: 10
   combination_analysis:
